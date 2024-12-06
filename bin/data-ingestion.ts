@@ -32,8 +32,8 @@ new DataIngestionPipelineStack(app, `${prefix}-DataIngestionPipelineStack`, {
     region: process.env.CDK_DEFAULT_REGION
   },
   prefix: prefix,
-  repoName: 'amanoxsolutions/mlops-realtime-data-ingestion',
-  codestarConnectionName: 'mlops-realtime-data-ingestion',
+  repoName: 'RaphaelEymann/mlops-realtime-data-ingestion',
+  codestarConnectionName: 'github',
   fullBranchName: fullBranchName,
   shortBranchName: shortBranchName,
 });
