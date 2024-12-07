@@ -60,7 +60,7 @@ def add_roles(role_name: str, stack_prefix: str, account: str):
         logger.info(f"Role {role_name} already exists")
     except iam.exceptions.NoSuchEntityException as e:
         logger.info(f"Creating role {role_name}")
-        if role_name == SC_PROD_CLOUDFORMATION_ROLE:
+        if role_name == SC_PROD_LAMBDA_ROLE:
             assume_role_policy = generate_assume_role_policy(service="lambda")
             role = iam.create_role(Path="/service-role/", RoleName=role_name, AssumeRolePolicyDocument=assume_role_policy)
             iam.attach_role_policy(
