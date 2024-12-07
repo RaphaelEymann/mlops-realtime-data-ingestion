@@ -498,22 +498,6 @@ export class RDISagemakerStudio extends Construct {
       policyName: `${this.prefix}-codecommit-policy`,
       document: codeCommitPolicyDocument,
     });
-    const cloudFormationPolicyDocument = new PolicyDocument({
-      statements: [
-        new PolicyStatement({
-          sid: 'CloudFormationAccess',
-          effect: Effect.ALLOW,
-          actions: [
-            'cloudformation:CreateStack',
-          ],
-          resources: [`arn:aws:cloudformation:${region}:${account}:stack/SC*`],
-        }),
-      ],
-    });
-    const cloudFormationPolicy = new Policy(this, 'CloudFormationPolicy', {
-      policyName: `${this.prefix}-cloudformation-policy`,
-      document: cloudFormationPolicyDocument,
-    });
 
     this.executionRole = new Role(this, 'StudioRole', {
       roleName: `${this.prefix}-sagemaker-studio-role`,
@@ -527,7 +511,6 @@ export class RDISagemakerStudio extends Construct {
     this.executionRole.attachInlinePolicy(props.dataAccessPolicy);
     this.executionRole.attachInlinePolicy(ssmParameterPolicy);
     this.executionRole.attachInlinePolicy(codeCommitPolicy);
-    this.executionRole.attachInlinePolicy(cloudFormationPolicy);
 
     //
     // Create SageMaker Service Catalo Roles
