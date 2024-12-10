@@ -17,6 +17,7 @@ SC_PROD_CODEPIPELINE_ROLE = "AmazonSageMakerServiceCatalogProductsCodePipelineRo
 SC_PROD_CODEBUILD_ROLE = "AmazonSageMakerServiceCatalogProductsCodeBuildRole"
 SC_PROD_CLOUDFORMATION_ROLE = "AmazonSageMakerServiceCatalogProductsCloudformationRole"
 SC_PROD_LAMBDA_ROLE = "AmazonSageMakerServiceCatalogProductsLambdaRole"
+SC_PROD_EVENTS_ROLE = "AmazonSageMakerServiceCatalogProductsEventsRole"
 
 
 @logger.inject_lambda_context(log_event=True)
@@ -36,6 +37,7 @@ def create(event, _):
     add_roles(SC_PROD_CODEBUILD_ROLE, stack_prefix, account)
     add_roles(SC_PROD_CLOUDFORMATION_ROLE, stack_prefix, account)
     add_roles(SC_PROD_LAMBDA_ROLE, stack_prefix, account)
+    add_roles(SC_PROD_EVENTS_ROLE, stack_prefix, account)
     helper.Data.update({
         "ServiceCatalogProductsLaunchRoleName": SC_PROD_LAUNCH_ROLE,
         "ServiceCatalogProductsUseRoleName": SC_PROD_USE_ROLE,
@@ -44,6 +46,7 @@ def create(event, _):
         "ServiceCatalogProductsCodeBuildRoleName": SC_PROD_CODEBUILD_ROLE,
         "ServiceCatalogProductsCloudFormationRoleName": SC_PROD_CLOUDFORMATION_ROLE,
         "ServiceCatalogProductsLambdaRoleName": SC_PROD_LAMBDA_ROLE,
+        "ServiceCatalogProductsEventsRoleName": SC_PROD_EVENTS_ROLE,
     })
 
 def add_roles(role_name: str, stack_prefix: str, account: str):
@@ -60,6 +63,12 @@ def add_roles(role_name: str, stack_prefix: str, account: str):
         logger.info(f"Role {role_name} already exists")
     except iam.exceptions.NoSuchEntityException as e:
         logger.info(f"Creating role {role_name}")
+        if role_name == SC_PROD_EVENTS_ROLE:
+            assume_role_policy = generate_assume_role_policy(service="events")
+            role = iam.create_role(Path="/service-role/", RoleName=role_name, AssumeRolePolicyDocument=assume_role_policy)
+            iam.attach_role_policy(
+                PolicyArn="arn:aws:iam::aws:policy/service-role/AmazonSageMakerServiceCatalogProductsEventsServiceRolePolicy",
+                RoleName=role_name)
         if role_name == SC_PROD_LAMBDA_ROLE:
             assume_role_policy = generate_assume_role_policy(service="lambda")
             role = iam.create_role(Path="/service-role/", RoleName=role_name, AssumeRolePolicyDocument=assume_role_policy)
