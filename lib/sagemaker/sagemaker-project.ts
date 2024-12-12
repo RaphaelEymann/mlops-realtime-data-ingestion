@@ -82,6 +82,12 @@ export class RDISagemakerMlopsProjectCustomResource extends Construct {
           ],
           resources: [props.domainExecutionRole.roleArn],
         }),
+        // IAM Policy for putting code connection arn to parameter store
+        new PolicyStatement({
+          effect: Effect.ALLOW,
+          actions: ['ssm:GetParameter'],
+          resources: [`arn:aws:ssm:${region}:${account}:parameter/rdi-mlops/stack-parameters/connection-arn`],
+        }),
       ],
     });
 
