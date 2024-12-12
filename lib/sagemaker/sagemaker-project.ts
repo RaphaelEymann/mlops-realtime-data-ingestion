@@ -20,6 +20,10 @@ interface RDISagemakerMlopsProjectCustomResourceProps {
   readonly customResourceLayerArn: string;
   readonly portfolioId : string;
   readonly domainExecutionRole: Role;
+  readonly repoNameBuild: string;
+  readonly repoNameDeploy: string;
+  readonly repoNameMonitor: string;
+  readonly codeConnectionArn: string;
 }
 
 export class RDISagemakerMlopsProjectCustomResource extends Construct {
@@ -30,6 +34,10 @@ export class RDISagemakerMlopsProjectCustomResource extends Construct {
   public readonly projectId: string;
   public readonly projectName: string;
   public readonly customResourceLayerArn: string;
+  public readonly repoNameBuild: string;
+  public readonly repoNameDeploy: string;
+  public readonly repoNameMonitor: string;
+  public readonly codeConnectionArn: string;
 
   constructor(scope: Construct, id: string, props: RDISagemakerMlopsProjectCustomResourceProps) {
     super(scope, id);
@@ -42,6 +50,10 @@ export class RDISagemakerMlopsProjectCustomResource extends Construct {
     this.runtime = props.runtime;
     this.removalPolicy = props.removalPolicy;
     this.customResourceLayerArn = props.customResourceLayerArn;
+    this.repoNameBuild = props.repoNameBuild;
+    this.repoNameDeploy = props.repoNameDeploy;
+    this.repoNameMonitor = props.repoNameMonitor;
+    this.codeConnectionArn = props.codeConnectionArn;
 
     const policyDocument = new PolicyDocument({
       statements: [
@@ -108,10 +120,10 @@ export class RDISagemakerMlopsProjectCustomResource extends Construct {
       timeout: Duration.seconds(5),
       runtime: this.runtime,
       environment: {
-        BUILD_REPO_NAME: "this.repoNameBuild",
-        DEPLOY_REPO_NAME: "this.repoNameDeploy",
-        MONITOR_REPO_NAME: "this.repoNameMonitor",
-        CODE_CONNECTION_ARN: "this.connectionArn",
+        BUILD_REPO_NAME: this.repoNameBuild,
+        DEPLOY_REPO_NAME: this.repoNameDeploy,
+        MONITOR_REPO_NAME: this.repoNameMonitor,
+        CODE_CONNECTION_ARN: this.codeConnectionArn,
       },
       logRetention: RetentionDays.ONE_WEEK,
       layers: [PythonLayerVersion.fromLayerVersionArn(this, 'layerversion', this.customResourceLayerArn)],
@@ -144,6 +156,10 @@ interface RDISagemakerProjectProps {
   readonly domainExecutionRole: Role;
   readonly cloudFormationRoleName: string;
   readonly dataAccessPolicy: Policy;
+  readonly repoNameBuild: string;
+  readonly repoNameDeploy: string;
+  readonly repoNameMonitor: string;
+  readonly codeConnectionArn: string;
 }
   
 export class RDISagemakerProject extends Construct {
@@ -153,6 +169,10 @@ export class RDISagemakerProject extends Construct {
   public readonly portfolioId: string;
   public readonly projectName: string;
   public readonly projectId: string;
+  public readonly repoNameBuild: string;
+  public readonly repoNameDeploy: string;
+  public readonly repoNameMonitor: string;
+  public readonly codeConnectionArn: string;
 
   constructor(scope: Construct, id: string, props: RDISagemakerProjectProps) {
     super(scope, id);
@@ -160,7 +180,11 @@ export class RDISagemakerProject extends Construct {
     this.prefix = props.prefix;
     this.portfolioId = props.portfolioId;
     this.removalPolicy = props.removalPolicy || RemovalPolicy.DESTROY;
-    this.runtime = props.runtime; 
+    this.runtime = props.runtime;
+    this.repoNameBuild = props.repoNameBuild;
+    this.repoNameDeploy = props.repoNameDeploy;
+    this.repoNameMonitor = props.repoNameMonitor;
+    this.codeConnectionArn = props.codeConnectionArn;
 
     //
     // Create SageMaker Project
@@ -174,6 +198,10 @@ export class RDISagemakerProject extends Construct {
       customResourceLayerArn: props.customResourceLayerArn,
       portfolioId : this.portfolioId,
       domainExecutionRole: props.domainExecutionRole,
+      repoNameBuild: this.repoNameBuild,
+      repoNameDeploy: this.repoNameDeploy,
+      repoNameMonitor: this.repoNameMonitor,
+      codeConnectionArn: this.codeConnectionArn,
     });
     this.projectId = sagemakerProjectCustomResource.projectId;
     this.projectName = sagemakerProjectCustomResource.projectName;

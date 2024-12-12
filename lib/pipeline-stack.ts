@@ -17,6 +17,9 @@ export interface DataIngestionPipelineStackProps extends StackProps {
   readonly shortBranchName: string;
   readonly runtime?: Runtime;
   readonly removalPolicy?: RemovalPolicy;
+  readonly repoNameBuild: string;
+  readonly repoNameDeploy: string;
+  readonly repoNameMonitor: string;
 }
 
 export class DataIngestionPipelineStack extends Stack {
@@ -78,6 +81,10 @@ export class DataIngestionPipelineStack extends Stack {
       uniqueSuffix: uniqueSuffix,
       runtime: runtime,
       removalPolicy: removalPolicy,
+      repoNameBuild: props.repoNameBuild,
+      repoNameDeploy: props.repoNameDeploy,
+      repoNameMonitor: props.repoNameMonitor,
+      codeConnectionArn: codestarConnection.arn,
     }));
   }
 }

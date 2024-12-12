@@ -10,6 +10,10 @@ export interface RealtimeDataIngestionStageProps extends StageProps {
   readonly uniqueSuffix: string;
   readonly runtime: Runtime;
   readonly removalPolicy: RemovalPolicy;
+  readonly repoNameBuild: string;
+  readonly repoNameDeploy: string;
+  readonly repoNameMonitor: string;
+  readonly codeConnectionArn: string;
 }
 
 export class RealtimeDataIngestionStage extends Stage {
@@ -22,6 +26,10 @@ export class RealtimeDataIngestionStage extends Stage {
       s3Suffix: props.uniqueSuffix,
       runtime: props.runtime,
       removalPolicy: props.removalPolicy,
+      repoNameBuild: props.repoNameBuild,
+      repoNameDeploy: props.repoNameDeploy,
+      repoNameMonitor: props.repoNameMonitor,
+      codeConnectionArn: props.codeConnectionArn,
     };
 
     // Stack to deploy common resources
