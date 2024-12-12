@@ -32,11 +32,11 @@ new DataIngestionPipelineStack(app, `${prefix}-DataIngestionPipelineStack`, {
     region: process.env.CDK_DEFAULT_REGION
   },
   prefix: prefix,
-  repoName: 'amanoxsolutions/mlops-realtime-data-ingestion',
-  repoNameBuild: 'amanoxsolutions/mlops-sagemaker-model-build',
-  repoNameDeploy: 'amanoxsolutions/mlops-sagemaker-model-deploy',
-  repoNameMonitor: 'amanoxsolutions/mlops-sagemaker-model-monitor',
-  codestarConnectionName: 'mlops-realtime-data-ingestion',
+  repoName: 'RaphaelEymann/mlops-realtime-data-ingestion',
+  repoNameBuild: 'RaphaelEymann/mlops-sagemaker-model-build',
+  repoNameDeploy: 'RaphaelEymann/mlops-sagemaker-model-deploy',
+  repoNameMonitor: 'RaphaelEymann/mlops-sagemaker-model-monitor',
+  codestarConnectionName: 'github',
   fullBranchName: fullBranchName,
   shortBranchName: shortBranchName,
 });
