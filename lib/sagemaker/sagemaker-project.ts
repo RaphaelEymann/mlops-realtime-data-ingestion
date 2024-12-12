@@ -242,8 +242,7 @@ export class RDISagemakerProject extends Construct {
             'iam:TagRole',
             'iam:CreateRole',
             'iam:DeleteRole',
-            'iam:PutRolePolicy',
-            'iam:GetRolePolicy'
+            'iam:PutRolePolicy'
           ],
           resources: [
             `arn:aws:iam::${account}:role/${this.projectName}-staging-trigger-modelbuild-role`,
@@ -277,7 +276,8 @@ export class RDISagemakerProject extends Construct {
             'lambda:GetFunction',
             'lambda:DeleteFunction',
             'lambda:RemovePermission',
-            'lambda:UpdateFunction'
+            'lambda:UpdateFunctionCode',
+            'lambda:ListTags'
           ],
           resources: [
             `arn:aws:lambda:${region}:${account}:function:${this.projectName}-staging-trigger-modelbuild`,
