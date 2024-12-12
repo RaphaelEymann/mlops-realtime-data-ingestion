@@ -34,6 +34,10 @@ export class RDISagemakerMlopsProjectCustomResource extends Construct {
   public readonly projectId: string;
   public readonly projectName: string;
   public readonly customResourceLayerArn: string;
+  public readonly connectionArn: string;
+  public readonly repoNameBuild: string;
+  public readonly repoNameDeploy: string;
+  public readonly repoNameMonitor: string;
 
   constructor(scope: Construct, id: string, props: RDISagemakerMlopsProjectCustomResourceProps) {
     super(scope, id);
@@ -46,6 +50,10 @@ export class RDISagemakerMlopsProjectCustomResource extends Construct {
     this.runtime = props.runtime;
     this.removalPolicy = props.removalPolicy;
     this.customResourceLayerArn = props.customResourceLayerArn;
+    this.connectionArn = props.connectionArn;
+    this.repoNameBuild = props.repoNameBuild;
+    this.repoNameDeploy = props.repoNameDeploy;
+    this.repoNameMonitor = props.repoNameMonitor;
 
     const policyDocument = new PolicyDocument({
       statements: [
@@ -112,10 +120,10 @@ export class RDISagemakerMlopsProjectCustomResource extends Construct {
       timeout: Duration.seconds(5),
       runtime: this.runtime,
       environment: {
-        BUILD_REPO_NAME: props.repoNameBuild,
-        DEPLOY_REPO_NAME: props.repoNameDeploy,
-        MONITOR_REPO_NAME: props.repoNameMonitor,
-        CODE_CONNECTION_ARN: props.connectionArn,
+        BUILD_REPO_NAME: this.repoNameBuild,
+        DEPLOY_REPO_NAME: this.repoNameDeploy,
+        MONITOR_REPO_NAME: this.repoNameMonitor,
+        CODE_CONNECTION_ARN: this.connectionArn,
       },
       logRetention: RetentionDays.ONE_WEEK,
       layers: [PythonLayerVersion.fromLayerVersionArn(this, 'layerversion', this.customResourceLayerArn)],
