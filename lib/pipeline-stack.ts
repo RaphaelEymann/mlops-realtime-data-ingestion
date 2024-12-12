@@ -84,7 +84,6 @@ export class DataIngestionPipelineStack extends Stack {
       repoNameBuild: props.repoNameBuild,
       repoNameDeploy: props.repoNameDeploy,
       repoNameMonitor: props.repoNameMonitor,
-      codeConnectionArn: codestarConnection.arn,
     }));
   }
 }

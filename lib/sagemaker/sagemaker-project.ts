@@ -23,7 +23,6 @@ interface RDISagemakerMlopsProjectCustomResourceProps {
   readonly repoNameBuild: string;
   readonly repoNameDeploy: string;
   readonly repoNameMonitor: string;
-  readonly codeConnectionArn: string;
 }
 
 export class RDISagemakerMlopsProjectCustomResource extends Construct {
@@ -37,7 +36,6 @@ export class RDISagemakerMlopsProjectCustomResource extends Construct {
   public readonly repoNameBuild: string;
   public readonly repoNameDeploy: string;
   public readonly repoNameMonitor: string;
-  public readonly codeConnectionArn: string;
 
   constructor(scope: Construct, id: string, props: RDISagemakerMlopsProjectCustomResourceProps) {
     super(scope, id);
@@ -53,7 +51,6 @@ export class RDISagemakerMlopsProjectCustomResource extends Construct {
     this.repoNameBuild = props.repoNameBuild;
     this.repoNameDeploy = props.repoNameDeploy;
     this.repoNameMonitor = props.repoNameMonitor;
-    this.codeConnectionArn = props.codeConnectionArn;
 
     const policyDocument = new PolicyDocument({
       statements: [
@@ -123,7 +120,7 @@ export class RDISagemakerMlopsProjectCustomResource extends Construct {
         BUILD_REPO_NAME: this.repoNameBuild,
         DEPLOY_REPO_NAME: this.repoNameDeploy,
         MONITOR_REPO_NAME: this.repoNameMonitor,
-        CODE_CONNECTION_ARN: this.codeConnectionArn,
+        CODE_CONNECTION_ARN: "this.codeConnectionArn",
       },
       logRetention: RetentionDays.ONE_WEEK,
       layers: [PythonLayerVersion.fromLayerVersionArn(this, 'layerversion', this.customResourceLayerArn)],
@@ -159,7 +156,6 @@ interface RDISagemakerProjectProps {
   readonly repoNameBuild: string;
   readonly repoNameDeploy: string;
   readonly repoNameMonitor: string;
-  readonly codeConnectionArn: string;
 }
   
 export class RDISagemakerProject extends Construct {
@@ -172,7 +168,6 @@ export class RDISagemakerProject extends Construct {
   public readonly repoNameBuild: string;
   public readonly repoNameDeploy: string;
   public readonly repoNameMonitor: string;
-  public readonly codeConnectionArn: string;
 
   constructor(scope: Construct, id: string, props: RDISagemakerProjectProps) {
     super(scope, id);
@@ -184,7 +179,6 @@ export class RDISagemakerProject extends Construct {
     this.repoNameBuild = props.repoNameBuild;
     this.repoNameDeploy = props.repoNameDeploy;
     this.repoNameMonitor = props.repoNameMonitor;
-    this.codeConnectionArn = props.codeConnectionArn;
 
     //
     // Create SageMaker Project
@@ -201,7 +195,6 @@ export class RDISagemakerProject extends Construct {
       repoNameBuild: this.repoNameBuild,
       repoNameDeploy: this.repoNameDeploy,
       repoNameMonitor: this.repoNameMonitor,
-      codeConnectionArn: this.codeConnectionArn,
     });
     this.projectId = sagemakerProjectCustomResource.projectId;
     this.projectName = sagemakerProjectCustomResource.projectName;

@@ -5,6 +5,7 @@ import { CommonResourcesStack } from "./common/common-stack";
 import { RealtimeDataIngestionStack } from './ingestion/data-ingestion-stack';
 import { SagemakerStack } from './sagemaker/sagemaker-stack';
 
+
 export interface RealtimeDataIngestionStageProps extends StageProps {
   readonly prefix: string;
   readonly uniqueSuffix: string;
@@ -13,7 +14,6 @@ export interface RealtimeDataIngestionStageProps extends StageProps {
   readonly repoNameBuild: string;
   readonly repoNameDeploy: string;
   readonly repoNameMonitor: string;
-  readonly codeConnectionArn: string;
 }
 
 export class RealtimeDataIngestionStage extends Stage {
@@ -29,7 +29,6 @@ export class RealtimeDataIngestionStage extends Stage {
       repoNameBuild: props.repoNameBuild,
       repoNameDeploy: props.repoNameDeploy,
       repoNameMonitor: props.repoNameMonitor,
-      codeConnectionArn: props.codeConnectionArn,
     };
 
     // Stack to deploy common resources
