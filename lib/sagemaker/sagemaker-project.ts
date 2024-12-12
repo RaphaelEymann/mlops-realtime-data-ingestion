@@ -120,7 +120,6 @@ export class RDISagemakerMlopsProjectCustomResource extends Construct {
         BUILD_REPO_NAME: this.repoNameBuild,
         DEPLOY_REPO_NAME: this.repoNameDeploy,
         MONITOR_REPO_NAME: this.repoNameMonitor,
-        CODE_CONNECTION_ARN: "this.codeConnectionArn",
       },
       logRetention: RetentionDays.ONE_WEEK,
       layers: [PythonLayerVersion.fromLayerVersionArn(this, 'layerversion', this.customResourceLayerArn)],
