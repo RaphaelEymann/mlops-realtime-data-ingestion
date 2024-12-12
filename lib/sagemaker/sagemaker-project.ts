@@ -220,7 +220,7 @@ export class RDISagemakerProject extends Construct {
           ],
           resources: [
             `arn:aws:scheduler:${region}:${account}:schedule/default/${this.projectName}-staging-data-collection`,
-            `arn:aws:scheduler:${region}:${account}:schedule/default/${this.projectName}-staging-data-collection`
+            `arn:aws:scheduler:${region}:${account}:schedule/default/${this.projectName}-prod-data-collection`
           ],
         }),
       ],
@@ -276,7 +276,8 @@ export class RDISagemakerProject extends Construct {
             'lambda:AddPermission',
             'lambda:GetFunction',
             'lambda:DeleteFunction',
-            'lambda:RemovePermission'
+            'lambda:RemovePermission',
+            'lambda:UpdateFunction'
           ],
           resources: [
             `arn:aws:lambda:${region}:${account}:function:${this.projectName}-staging-trigger-modelbuild`,
