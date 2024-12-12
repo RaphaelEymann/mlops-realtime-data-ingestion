@@ -2,6 +2,7 @@ import time
 import boto3
 import random
 import string
+import os
 from aws_lambda_powertools import Logger
 from crhelper import CfnResource
 from botocore.exceptions import ClientError
@@ -12,7 +13,7 @@ logger = Logger()
 catalog = boto3.client("servicecatalog")
 sts_connection = boto3.client("sts")
 ssm_client = boto3.client("ssm")
-TEMPLATE_NAME = "MLOps template for model building, training, deployment and monitoring with 3p git"
+TEMPLATE_NAME = "MLOps template for model building, training, deployment and monitoring with third-party git using CodePipeline"
 
 
 @logger.inject_lambda_context(log_event=True)
@@ -58,7 +59,7 @@ def create(event, _):
     logger.info(f"Found latest product artifact: {product_artifacts[0]}")
     # Create the SageMaker Project for the SageMaker domain
     sagemaker = get_sagemaker_client_with_domain_execution_role(domain_execution_role_arn)
-    codeConnectionArn = ssm.get_parameter(Name="/rdi-mlops/stack-parameters/connection-arn").get("Parameter").get("Value")
+    codeConnectionArn = ssm_client.get_parameter(Name="/rdi-mlops/stack-parameters/connection-arn").get("Parameter").get("Value")
     response = sagemaker.create_project(
         ProjectName=project_name,
         ProjectDescription="MLOps project for the Realtime Data Ingestion and Analytics solution",
